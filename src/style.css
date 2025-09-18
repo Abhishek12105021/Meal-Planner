@@ -1,0 +1,18 @@
+/* styles.css */
+
+.box {
+    width: 400px;
+    height: 100px;
+    border-radius: 20px;
+    background-color: blue;
+    animation-name: slide;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+@keyframes slide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(1000px); }
+}
+  
+
