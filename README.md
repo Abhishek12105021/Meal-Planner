@@ -1,70 +1,101 @@
-# Getting Started with Create React App
+# Meal Planner
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React app that turns your food preferences into a daily, weekly, or monthly meal plan. Choose your meals per day, diet, cuisine, dish type, and calorie range, then explore recipes fetched from Edamam.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Flexible schedules:** plan for 1, 7, or 30 days with 2, 3, or 5 meals per day.
+- **Diet preferences:** balanced, low-carb, low-fat, low-sodium, and high-protein options.
+- **Health filters:** vegan, alcohol-free, and peanut-free options.
+- **Cuisine and dish choices:** select from 10 cuisines and 5 dish types.
+- **Calorie range:** enter a daily minimum and maximum; the app divides this range across meal slots when searching for recipes.
+- **Recipe cards:** view recipe images, sources, cuisine, diet labels, and health labels, with links to the original recipes.
 
-### `npm start`
+## Tech stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+| Purpose | Technology |
+| --- | --- |
+| User interface | React 18, JavaScript, CSS, Bootstrap 5 |
+| Navigation | React Router 6 |
+| API requests | Axios |
+| Recipe data | Edamam Recipe API |
+| Development and builds | Create React App / React Scripts 5 |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js and npm compatible with React Scripts 5.
+- An Edamam application ID and key with access to the recipe search endpoint used by this project.
 
-### `npm run build`
+### Install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+git clone https://github.com/Abhishek12105021/Meal-Planner.git
+cd Meal-Planner
+npm ci
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Run these commands from the repository root. The root `package.json` defines the app's development and production scripts.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Configure recipe access
 
-### `npm run eject`
+The current implementation reads its API configuration from `src/utils/edamam.js`. Replace the `***` placeholders with your own application ID and key for local development:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```js
+const RECIPE_API = {
+    ID: "YOUR_EDAMAM_APP_ID",
+    KEY: "YOUR_EDAMAM_APP_KEY",
+    URL: "https://api.edamam.com/search?",
+};
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+export default RECIPE_API;
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Keep real credentials out of commits. This app currently sends requests from the browser, so credentials included in its frontend are visible to users. For a public deployment, move authenticated API requests to a backend that keeps the key on the server.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Run locally
 
-## Learn More
+```bash
+npm start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Open [http://localhost:3000](http://localhost:3000). Recipe searches require network access and working API credentials.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Build
 
-### Code Splitting
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The production bundle is written to `build/`. If you deploy it, configure your host to serve `index.html` for client-side routes such as `/recipe`.
 
-### Analyzing the Bundle Size
+## Using the planner
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. Choose the number of meals per day and the plan duration.
+2. Select your diet, cuisine, and dish type.
+3. Enable any health filters and set the daily calorie range.
+4. Click **Submit** to fetch recipes and open the plan.
+5. Browse meals grouped by day and follow a recipe's title to its original source.
 
-### Making a Progressive Web App
+The app searches for recipes for each meal slot, then randomly selects from the returned results for each day. Recipes can repeat across a plan. The calorie range is a recipe search filter; the app does not calculate or optimize the combined nutrition of a day's selected meals.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Project structure
 
-### Advanced Configuration
+```text
+Meal-Planner/
+├── public/                 # HTML template and static assets
+├── src/
+│   ├── components/          # Planner form, day views, recipe cards, navigation
+│   ├── utils/
+│   │   ├── data.js          # Meal slots and filter options
+│   │   ├── edamam.js        # Recipe API configuration
+│   │   └── getPlan.js       # Query construction and recipe requests
+│   ├── App.js              # Routes for the planner and recipe results
+│   ├── index.js            # React entry point
+│   └── style.css           # Shared styles
+├── built-in/               # Original Create React App starter files
+└── package.json            # Main dependencies and npm scripts
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The nested `src/package.json`, `src/webpack.config.js`, and `src/README.md` are retained starter files. Use the root package and the setup instructions above for this app.
